@@ -1,0 +1,40 @@
+# Virtual environment
+venv/
+env/
+*.egg-info/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Database (comentar si quieres incluir la DB en producción)
+# *.db
+# *.sqlite
+# *.sqlite3
+
+# Flask
+instance/
+.webassets-cache
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+
+# API Keys (NUNCA subir a GitHub)
+*API_KEY*
+*.key
+*.pem
