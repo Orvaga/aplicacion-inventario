@@ -1,0 +1,182 @@
+╔══════════════════════════════════════════════════════════════════╗
+║                                                                  ║
+║   🚀 GUÍA PASO A PASO - DESPLEGAR EN RENDER                     ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+Sigue estos pasos EXACTAMENTE:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PASO 1: Ir a Render
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Ve a: https://dashboard.render.com
+2. Asegúrate de estar en tu Dashboard
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PASO 2: Crear Nuevo Web Service
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Click en el botón azul "New +"
+2. Selecciona "Web Service"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PASO 3: Seleccionar Repositorio CORRECTO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️  MUY IMPORTANTE: Busca en la lista:
+
+   ✅ aplicacion-inventario
+      Orvaga/aplicacion-inventario
+
+   ❌ NO selecciones "huilawed"
+
+1. Busca "aplicacion-inventario" en la lista
+2. Click en "Connect" al lado de ese repositorio
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PASO 4: Configurar el Servicio
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Llena el formulario con estos valores EXACTOS:
+
+┌─────────────────────────────────────────────────────────────────┐
+│ Name (Nombre)                                                   │
+├─────────────────────────────────────────────────────────────────┤
+│ aplicacion-inventario                                           │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│ Region (Región)                                                 │
+├─────────────────────────────────────────────────────────────────┤
+│ Oregon (US West)  [o la más cercana]                           │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│ Branch (Rama)                                                   │
+├─────────────────────────────────────────────────────────────────┤
+│ main                                                            │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│ Root Directory (Directorio raíz)                                │
+├─────────────────────────────────────────────────────────────────┤
+│ [DEJAR VACÍO - No escribas nada]                               │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│ Environment (Entorno)                                           │
+├─────────────────────────────────────────────────────────────────┤
+│ Python 3                                                        │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│ Build Command (Comando de construcción)                         │
+├─────────────────────────────────────────────────────────────────┤
+│ pip install -r requirements.txt && python backend/create_datab │
+│ ase.py                                                          │
+│                                                                 │
+│ [COPIA EXACTAMENTE ESTO:]                                       │
+│ pip install -r requirements.txt && python backend/create_databa│
+│se.py                                                            │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│ Start Command (Comando de inicio)                               │
+├─────────────────────────────────────────────────────────────────┤
+│ gunicorn -w 4 -b 0.0.0.0:$PORT backend.run:app                  │
+│                                                                 │
+│ [COPIA EXACTAMENTE ESTO:]                                       │
+│ gunicorn -w 4 -b 0.0.0.0:$PORT backend.run:app                  │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│ Instance Type (Tipo de instancia)                               │
+├─────────────────────────────────────────────────────────────────┤
+│ Free                                                            │
+└─────────────────────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PASO 5: Crear el Servicio
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Revisa que TODO esté correcto
+2. Click en el botón azul "Create Web Service"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PASO 6: Esperar el Despliegue
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Verás los logs en tiempo real:
+
+✓ Cloning repository...
+✓ Installing Python...
+✓ Running build command...
+✓ Installing dependencies...
+✓ Creating database...
+✓ Starting application...
+✓ Deploy live!
+
+Tiempo estimado: 5-10 minutos
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PASO 7: Acceder a tu Aplicación
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Cuando veas "Live" en verde:
+
+1. Copia la URL que aparece arriba (algo como):
+   https://aplicacion-inventario.onrender.com
+
+2. Ábrela en tu navegador
+
+3. ¡Tu aplicación está en línea! 🎉
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 COMANDOS PARA COPIAR Y PEGAR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Build Command:
+pip install -r requirements.txt && python backend/create_database.py
+
+Start Command:
+gunicorn -w 4 -b 0.0.0.0:$PORT backend.run:app
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️  ERRORES COMUNES A EVITAR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❌ Seleccionar "huilawed" en lugar de "aplicacion-inventario"
+❌ Escribir algo en "Root Directory"
+❌ Olvidar el && en el Build Command
+❌ Escribir mal el Start Command
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ CHECKLIST FINAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Antes de hacer click en "Create Web Service", verifica:
+
+□ Repositorio: aplicacion-inventario ✓
+□ Branch: main ✓
+□ Root Directory: (vacío) ✓
+□ Environment: Python 3 ✓
+□ Build Command tiene "&&" ✓
+□ Start Command tiene "$PORT" ✓
+□ Plan: Free ✓
+
+Si todo está ✓, ¡adelante! 🚀
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+¡Buena suerte! Tu aplicación estará en línea en unos minutos. 🎉

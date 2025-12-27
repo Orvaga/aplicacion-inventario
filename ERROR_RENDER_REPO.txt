@@ -1,0 +1,105 @@
+╔══════════════════════════════════════════════════════════════════╗
+║                                                                  ║
+║   ⚠️  ERROR: REPOSITORIO INCORRECTO EN RENDER                   ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🔴 PROBLEMA DETECTADO:
+
+Render está intentando clonar:
+❌ https://github.com/Orvaga/huilawed
+
+Pero debería clonar:
+✅ https://github.com/Orvaga/aplicacion-inventario
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔧 SOLUCIÓN - OPCIÓN 1: Eliminar y Recrear (RECOMENDADO)
+
+1. En Render Dashboard:
+   ├─ Ve al servicio que acabas de crear
+   ├─ Click en "Settings" (Configuración)
+   ├─ Scroll hasta abajo
+   └─ Click en "Delete Web Service"
+
+2. Crear nuevo servicio:
+   ├─ Click "New +" → "Web Service"
+   ├─ IMPORTANTE: Busca y selecciona:
+   │  📦 aplicacion-inventario (NO huilawed)
+   │
+   └─ Verifica que la URL sea:
+      https://github.com/Orvaga/aplicacion-inventario
+
+3. Configurar:
+   Name:          aplicacion-inventario
+   Environment:   Python 3
+   Build Command: pip install -r requirements.txt && python backend/create_database.py
+   Start Command: gunicorn -w 4 -b 0.0.0.0:$PORT backend.run:app
+   Plan:          Free
+
+4. Click "Create Web Service"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔧 SOLUCIÓN - OPCIÓN 2: Cambiar Repositorio (Si no puedes eliminar)
+
+1. En el servicio actual:
+   ├─ Click en "Settings"
+   ├─ Busca "Repository"
+   └─ Cambia a: Orvaga/aplicacion-inventario
+
+2. Guarda cambios
+
+3. Click en "Manual Deploy" → "Deploy latest commit"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 CHECKLIST ANTES DE CREAR EL SERVICIO:
+
+Cuando estés en la pantalla de "Create Web Service", verifica:
+
+□ Repository: Orvaga/aplicacion-inventario ✓
+  (NO debe decir "huilawed")
+
+□ Branch: main ✓
+
+□ Root Directory: (vacío) ✓
+
+□ Build Command:
+  pip install -r requirements.txt && python backend/create_database.py ✓
+
+□ Start Command:
+  gunicorn -w 4 -b 0.0.0.0:$PORT backend.run:app ✓
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔍 CÓMO IDENTIFICAR EL REPOSITORIO CORRECTO:
+
+En la lista de repositorios en Render, busca:
+
+✅ CORRECTO:
+   📦 aplicacion-inventario
+   🔗 Orvaga/aplicacion-inventario
+   📅 Updated recently
+
+❌ INCORRECTO:
+   📦 huilawed
+   🔗 Orvaga/huilawed
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 CONSEJO:
+
+Si no ves "aplicacion-inventario" en la lista:
+1. Verifica que el repositorio existe en GitHub:
+   https://github.com/Orvaga/aplicacion-inventario
+
+2. Refresca la conexión de GitHub en Render:
+   Settings → GitHub → Reconnect
+
+3. Intenta de nuevo
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Una vez que selecciones el repositorio CORRECTO, el despliegue
+funcionará sin problemas. 🚀
