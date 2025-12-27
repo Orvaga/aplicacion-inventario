@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Registrar Movimiento{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{{ url_for('almacen.index') }}" class="btn btn-secondary">← Volver</a>
+</div>
+
+<h1>Registrar Movimiento de Almacén</h1>
+
+<form method="post" class="mt-4">
+    <div class="form-group">
+        <label for="producto_id">Producto</label>
+        <select class="form-control" id="producto_id" name="producto_id" required>
+            <option value="">-- Selecciona un producto --</option>
+            {% for prod in productos %}
+            <option value="{{ prod['id'] }}">{{ prod['nombre'] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="tipo_movimiento">Tipo de Movimiento</label>
+        <select class="form-control" id="tipo_movimiento" name="tipo_movimiento" required>
+            <option value="">-- Selecciona --</option>
+            <option value="entrada">Entrada</option>
+            <option value="salida">Salida</option>
+            <option value="ajuste">Ajuste</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="cantidad">Cantidad</label>
+        <input type="number" step="0.01" class="form-control" id="cantidad" name="cantidad" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="motivo">Motivo</label>
+        <input type="text" class="form-control" id="motivo" name="motivo">
+    </div>
+    
+    <button type="submit" class="btn btn-success">Registrar</button>
+    <a href="{{ url_for('almacen.index') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

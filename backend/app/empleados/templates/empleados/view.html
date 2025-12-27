@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ empleado['nombre'] }}{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{{ url_for('empleados.index') }}" class="btn btn-secondary">← Volver</a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2>{{ empleado['nombre'] }} {{ empleado['apellido_paterno'] or '' }}</h2>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Puesto:</dt>
+            <dd class="col-sm-9">{{ empleado['puesto'] or '-' }}</dd>
+            
+            <dt class="col-sm-3">Departamento:</dt>
+            <dd class="col-sm-9">{{ empleado['departamento'] or '-' }}</dd>
+            
+            <dt class="col-sm-3">Identificación:</dt>
+            <dd class="col-sm-9">{{ empleado['identificacion'] or '-' }}</dd>
+            
+            <dt class="col-sm-3">Email:</dt>
+            <dd class="col-sm-9">{{ empleado['email'] or '-' }}</dd>
+            
+            <dt class="col-sm-3">Teléfono:</dt>
+            <dd class="col-sm-9">{{ empleado['telefono'] or '-' }}</dd>
+            
+            <dt class="col-sm-3">Salario:</dt>
+            <dd class="col-sm-9">{{ '%.2f'|format(empleado['salario'] or 0) }}</dd>
+        </dl>
+    </div>
+    <div class="card-footer">
+        <a href="{{ url_for('empleados.edit', id=empleado['id']) }}" class="btn btn-warning">Editar</a>
+        <a href="{{ url_for('empleados.delete', id=empleado['id']) }}" class="btn btn-danger">Eliminar</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ producto['nombre'] }}{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{{ url_for('productos.index') }}" class="btn btn-secondary">← Volver</a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2>{{ producto['nombre'] }}</h2>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">SKU:</dt>
+            <dd class="col-sm-9">{{ producto['sku'] or '-' }}</dd>
+            
+            <dt class="col-sm-3">Descripción:</dt>
+            <dd class="col-sm-9">{{ producto['descripcion'] or '-' }}</dd>
+            
+            <dt class="col-sm-3">Categoría:</dt>
+            <dd class="col-sm-9">{{ producto['categoria'] or '-' }}</dd>
+            
+            <dt class="col-sm-3">Unidad de Medida:</dt>
+            <dd class="col-sm-9">{{ producto['unidad_medida'] or '-' }}</dd>
+            
+            <dt class="col-sm-3">Precio Costo:</dt>
+            <dd class="col-sm-9">{{ '%.2f'|format(producto['precio_costo'] or 0) }}</dd>
+            
+            <dt class="col-sm-3">Precio Venta:</dt>
+            <dd class="col-sm-9">{{ '%.2f'|format(producto['precio_venta'] or 0) }}</dd>
+            
+            <dt class="col-sm-3">Stock Mínimo:</dt>
+            <dd class="col-sm-9">{{ producto['stock_minimo'] or 0 }}</dd>
+        </dl>
+    </div>
+    <div class="card-footer">
+        <a href="{{ url_for('productos.edit', id=producto['id']) }}" class="btn btn-warning">Editar</a>
+        <a href="{{ url_for('productos.delete', id=producto['id']) }}" class="btn btn-danger">Eliminar</a>
+    </div>
+</div>
+{% endblock %}

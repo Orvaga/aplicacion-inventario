@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}Crear Producto{% endblock %}
+
+{% block content %}
+<div>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div id="flash-messages" class="d-none">
+        {% for category, msg in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ msg }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h5 class="mb-0">Nuevo Producto</h5>
+    <a href="{{ url_for('productos.index') }}" class="btn btn-sm btn-secondary">← Volver</a>
+  </div>
+
+  <form method="post" id="productoForm">
+    <div class="card mb-2">
+      <div class="card-body p-3">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group mb-2">
+              <label for="sku" class="mb-1">SKU <span class="text-danger">*</span></label>
+              <input type="text" class="form-control form-control-sm" id="sku" name="sku" required placeholder="Código único" maxlength="50">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group mb-2">
+              <label for="nombre" class="mb-1">Nombre <span class="text-danger">*</span></label>
+              <input type="text" class="form-control form-control-sm" id="nombre" name="nombre" required placeholder="Nombre del producto" maxlength="200">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-2">
+              <label for="categoria" class="mb-1">Categoría</label>
+              <input type="text" class="form-control form-control-sm" id="categoria" name="categoria" placeholder="Categoría" maxlength="100">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group mb-2">
+              <label for="unidad_medida" class="mb-1">Unidad Medida</label>
+              <input type="text" class="form-control form-control-sm" id="unidad_medida" name="unidad_medida" placeholder="Ej: Unidad, Kg" maxlength="20">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-2">
+              <label for="precio_costo" class="mb-1">Precio Costo</label>
+              <input type="number" step="0.01" class="form-control form-control-sm" id="precio_costo" name="precio_costo" value="0" min="0" placeholder="0.00">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-2">
+              <label for="precio_venta" class="mb-1">Precio Venta</label>
+              <input type="number" step="0.01" class="form-control form-control-sm" id="precio_venta" name="precio_venta" value="0" min="0" placeholder="0.00">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-2">
+              <label for="stock_minimo" class="mb-1">Stock Mínimo</label>
+              <input type="number" step="0.01" class="form-control form-control-sm" id="stock_minimo" name="stock_minimo" value="0" min="0" placeholder="0">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group mb-0">
+              <label for="descripcion" class="mb-1">Descripción</label>
+              <textarea class="form-control form-control-sm" id="descripcion" name="descripcion" rows="2" placeholder="Descripción del producto..." maxlength="500"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <a href="{{ url_for('productos.index') }}" class="btn btn-sm btn-secondary mr-2">Cancelar</a>
+      <button type="submit" class="btn btn-sm btn-success">
+        💾 Guardar Producto
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('productoForm');
+  form.addEventListener('submit', function(e) {
+    const sku = document.getElementById('sku').value.trim();
+    const nombre = document.getElementById('nombre').value.trim();
+    if (!sku || !nombre) {
+      e.preventDefault();
+      alert('SKU y Nombre son obligatorios');
+      return false;
+    }
+  });
+  document.getElementById('sku').focus();
+});
+</script>
+
+<style>
+.card {
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.form-group label {
+  font-weight: 500;
+  font-size: 0.8rem;
+  color: #495057;
+}
+.form-control-sm {
+  font-size: 0.8rem;
+  height: calc(1.5em + 0.5rem + 2px);
+  padding: 0.25rem 0.5rem;
+}
+</style>
+{% endblock %}

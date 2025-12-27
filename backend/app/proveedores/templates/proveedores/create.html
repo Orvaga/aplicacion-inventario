@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+
+{% block title %}Crear Proveedor{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">Crear Nuevo Proveedor</h1>
+            <p class="text-muted mb-0">Complete la información del proveedor</p>
+        </div>
+        <a href="{{ url_for('proveedores.index') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Volver al listado
+        </a>
+    </div>
+
+    <!-- Formulario -->
+    <div class="card shadow">
+        <div class="card-body">
+            <form method="post" id="proveedorForm" novalidate>
+                <!-- Información Básica -->
+                <div class="row">
+                    <div class="col-12">
+                        <h5 class="card-title text-primary mb-3">
+                            <i class="fas fa-building me-2"></i>Información Básica
+                        </h5>
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label fw-bold">
+                                Nombre del Proveedor <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" 
+                                   placeholder="Ingrese el nombre del proveedor" required>
+                            <div class="invalid-feedback">
+                                Por favor ingrese el nombre del proveedor.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="razon_social" class="form-label fw-bold">Razón Social</label>
+                            <input type="text" class="form-control" id="razon_social" name="razon_social" 
+                                   placeholder="Razón social o nombre de la empresa">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="nit" class="form-label fw-bold">NIT/RUC</label>
+                            <input type="text" class="form-control" id="nit" name="nit" 
+                                   placeholder="Número de identificación fiscal">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="producto_servicio" class="form-label fw-bold">Producto/Servicio</label>
+                            <input type="text" class="form-control" id="producto_servicio" name="producto_servicio" 
+                                   placeholder="Categoría principal de productos">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="estado" class="form-label fw-bold">Estado</label>
+                            <select id="estado" name="estado" class="form-select">
+                                <option value="activo" selected>Activo</option>
+                                <option value="inactivo">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <!-- Información de Contacto -->
+                <div class="row">
+                    <div class="col-12">
+                        <h5 class="card-title text-primary mb-3">
+                            <i class="fas fa-address-book me-2"></i>Información de Contacto
+                        </h5>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="contacto" class="form-label fw-bold">Persona de Contacto</label>
+                            <input type="text" class="form-control" id="contacto" name="contacto" 
+                                   placeholder="Nombre del contacto principal">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="telefono" class="form-label fw-bold">Teléfono</label>
+                            <input type="tel" class="form-control" id="telefono" name="telefono" 
+                                   placeholder="Número de teléfono o móvil">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-bold">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="email" name="email" 
+                                   placeholder="correo@empresa.com">
+                            <div class="invalid-feedback">
+                                Por favor ingrese un correo electrónico válido.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="sitio_web" class="form-label fw-bold">Sitio Web</label>
+                            <input type="url" class="form-control" id="sitio_web" name="sitio_web" 
+                                   placeholder="https://www.empresa.com">
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <!-- Información Comercial -->
+                <div class="row">
+                    <div class="col-12">
+                        <h5 class="card-title text-primary mb-3">
+                            <i class="fas fa-handshake me-2"></i>Información Comercial
+                        </h5>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="condiciones_pago" class="form-label fw-bold">Condiciones de Pago</label>
+                            <select class="form-select" id="condiciones_pago" name="condiciones_pago">
+                                <option value="">Seleccione una opción</option>
+                                <option value="contado">Contado</option>
+                                <option value="15_dias">15 días</option>
+                                <option value="30_dias">30 días</option>
+                                <option value="45_dias">45 días</option>
+                                <option value="60_dias">60 días</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="fecha_registro" class="form-label fw-bold">Fecha de Registro</label>
+                            <input type="date" class="form-control" id="fecha_registro" name="fecha_registro" 
+                                   value="{{ moment().format('YYYY-MM-DD') }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label for="notas" class="form-label fw-bold">Notas Adicionales</label>
+                            <textarea class="form-control" id="notas" name="notas" rows="4" 
+                                      placeholder="Información adicional sobre el proveedor (descuentos, condiciones especiales, etc.)"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones de Acción -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="{{ url_for('proveedores.index') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-times me-2"></i>Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save me-2"></i>Crear Proveedor
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Script para validación del formulario -->
+<script>
+(function() {
+    'use strict';
+    
+    // Obtener el formulario
+    var form = document.getElementById('proveedorForm');
+    
+    // Establecer fecha actual por defecto
+    document.getElementById('fecha_registro').value = new Date().toISOString().split('T')[0];
+    
+    // Agregar evento de validación
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        
+        form.classList.add('was-validated');
+    }, false);
+    
+    // Validación en tiempo real para email
+    document.getElementById('email').addEventListener('input', function() {
+        var email = this.value;
+        if (email && !isValidEmail(email)) {
+            this.setCustomValidity('Por favor ingrese un correo electrónico válido');
+        } else {
+            this.setCustomValidity('');
+        }
+    });
+    
+    function isValidEmail(email) {
+        var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+})();
+</script>
+{% endblock %}
+

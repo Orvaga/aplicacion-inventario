@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Movimiento #{{ movimiento['id'] }}{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{{ url_for('almacen.index') }}" class="btn btn-secondary">← Volver</a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2>Movimiento #{{ movimiento['id'] }}</h2>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Tipo:</dt>
+            <dd class="col-sm-9">{{ movimiento['tipo_movimiento'] }}</dd>
+            
+            <dt class="col-sm-3">Cantidad:</dt>
+            <dd class="col-sm-9">{{ movimiento['cantidad'] }}</dd>
+            
+            <dt class="col-sm-3">Motivo:</dt>
+            <dd class="col-sm-9">{{ movimiento['motivo'] or '-' }}</dd>
+            
+            <dt class="col-sm-3">Fecha:</dt>
+            <dd class="col-sm-9">{{ movimiento['fecha'] or '-' }}</dd>
+        </dl>
+    </div>
+</div>
+{% endblock %}

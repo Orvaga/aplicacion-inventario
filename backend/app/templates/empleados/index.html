@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block title %}Empleados{% endblock %}
+
+{% block content %}
+<div>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div id="flash-messages" class="d-none">
+        {% for category, msg in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ msg }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+    <div class="table-controls" style="margin-bottom: 0; display: flex; gap: 8px; align-items: center;">
+      <div class="table-search">
+        <input type="text" placeholder="🔍 Buscar..." id="search-empleados" style="width: 300px; padding: 4px 8px; border: 1px solid #ddd; border-radius: 3px; font-size: 0.85em; height: 26px;">
+      </div>
+      <div class="table-actions"></div>
+    </div>
+    <a href="{{ url_for('empleados.create') }}" data-new-href="{{ url_for('empleados.create') }}" class="btn btn-sm btn-success" style="height: 26px; line-height: 1; padding: 4px 12px; font-size: 0.85rem;">+ Nuevo</a>
+  </div>
+
+  {% if empleados|length == 0 %}
+    <div class="alert alert-info">No hay empleados registrados.</div>
+  {% else %}
+    <div class="table-responsive">
+      <table id="table-empleados" class="table table-sm table-hover mb-0 excel-grid compact-table">
+        <thead class="brand-table-header">
+          <tr>
+            <th>Nombre</th>
+            <th>Puesto</th>
+            <th>Estado</th>
+            <th class="col-actions-md">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for e in empleados %}
+          <tr class="row-divider">
+            <td class="cell-small fw-500">{{ e['nombre'] }} {{ e['apellido_paterno'] or '' }}</td>
+            <td class="muted-text cell-small">{{ e['puesto'] or '—' }}</td>
+            <td class="cell-small">
+              {% if e['activo'] == 1 %}
+                <span class="badge badge-success">Activo</span>
+              {% else %}
+                <span class="badge badge-secondary">Inactivo</span>
+              {% endif %}
+            </td>
+            <td class="cell-small">
+              <a href="{{ url_for('empleados.view', id=e['id']) }}" class="btn btn-xs btn-info btn-compact">Ver</a>
+              <a href="{{ url_for('empleados.edit', id=e['id']) }}" class="btn btn-xs btn-warning btn-compact">Editar</a>
+              <a href="{{ url_for('empleados.delete', id=e['id']) }}" class="btn btn-xs btn-danger btn-compact">Eliminar</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+  
+  <div class="pagination-controls" style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #ecf0f1;">
+    <div class="pagination-info" style="font-size: 0.9em; color: #7f8c8d;"></div>
+    <div class="pagination-nav" style="display: flex; gap: 8px; align-items: center;">
+      <div class="rows-per-page" style="display: flex; gap: 8px; align-items: center; font-size: 0.9em;">
+        <span>Filas por página:</span>
+        <select id="rows-per-page" style="padding: 6px 8px; border: 1px solid #ddd; border-radius: 4px; background-color: white; cursor: pointer;">
+          <option value="10" selected>10</option>
+          <option value="15">15</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+        </select>
+      </div>
+      <button id="prev-page" style="padding: 6px 12px; border: 1px solid #ddd; background-color: white; border-radius: 4px; cursor: pointer;">← Anterior</button>
+      <button id="next-page" style="padding: 6px 12px; border: 1px solid #ddd; background-color: white; border-radius: 4px; cursor: pointer;">Siguiente →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('search-empleados');
+  const table = document.getElementById('table-empleados');
+  const tbody = table.querySelector('tbody');
+  const allRows = Array.from(tbody.querySelectorAll('tr'));
+  const rowsPerPageSelect = document.getElementById('rows-per-page');
+  const prevBtn = document.getElementById('prev-page');
+  const nextBtn = document.getElementById('next-page');
+  const paginationInfo = document.querySelector('.pagination-info');
+  
+  let currentPage = 1;
+  let rowsPerPage = 10;
+  let filteredRows = [...allRows];
+  
+  function updateTable() {
+    const start = (currentPage - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const totalPages = Math.ceil(filteredRows.length / rowsPerPage) || 1;
+    
+    allRows.forEach(row => row.style.display = 'none');
+    filteredRows.slice(start, end).forEach(row => row.style.display = '');
+    
+    const from = filteredRows.length === 0 ? 0 : start + 1;
+    const to = Math.min(end, filteredRows.length);
+    paginationInfo.textContent = `Mostrando ${from}-${to} de ${filteredRows.length} registros`;
+    
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage >= totalPages;
+    prevBtn.style.opacity = currentPage === 1 ? '0.5' : '1';
+    nextBtn.style.opacity = currentPage >= totalPages ? '0.5' : '1';
+    prevBtn.style.cursor = currentPage === 1 ? 'not-allowed' : 'pointer';
+    nextBtn.style.cursor = currentPage >= totalPages ? 'not-allowed' : 'pointer';
+  }
+  
+  function filterRows(searchTerm) {
+    searchTerm = searchTerm.toLowerCase().trim();
+    filteredRows = allRows.filter(row => {
+      const cells = Array.from(row.querySelectorAll('td')).slice(0, -1);
+      const text = cells.map(cell => cell.textContent.toLowerCase()).join(' ');
+      return text.includes(searchTerm);
+    });
+    currentPage = 1;
+    updateTable();
+  }
+  
+  if (searchInput) {
+    searchInput.addEventListener('keyup', function(e) {
+      filterRows(e.target.value);
+    });
+  }
+  
+  rowsPerPageSelect.addEventListener('change', function(e) {
+    rowsPerPage = parseInt(e.target.value);
+    currentPage = 1;
+    updateTable();
+  });
+  
+  prevBtn.addEventListener('click', function() {
+    if (currentPage > 1) {
+      currentPage--;
+      updateTable();
+      table.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+  
+  nextBtn.addEventListener('click', function() {
+    const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+    if (currentPage < totalPages) {
+      currentPage++;
+      updateTable();
+      table.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+  
+  updateTable();
+});
+</script>
+{% endblock %}

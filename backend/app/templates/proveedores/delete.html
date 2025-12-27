@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar Proveedor{% endblock %}
+
+{% block content %}
+<div>
+  <div class="d-flex justify-content-between align-items-center mb-1">
+    <h5 class="mb-0">⚠️ Eliminar Proveedor</h5>
+    <div>
+      <a href="{{ url_for('proveedores.index') }}" class="btn btn-sm btn-secondary">← Volver</a>
+    </div>
+  </div>
+
+  <div class="card card-danger">
+    <div class="card-body p-3">
+      <div class="warning-header">
+        <span class="warning-icon">⚠️</span>
+        <div>
+          <h6 class="mb-1">¿Estás seguro de eliminar este proveedor?</h6>
+          <p class="mb-0">Esta acción no se puede deshacer. Toda la información será eliminada permanentemente.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="info-item">
+            <label>Nombre:</label>
+            <p>{{ proveedor['nombre'] }}</p>
+          </div>
+          <div class="info-item">
+            <label>Razón Social:</label>
+            <p>{{ proveedor['razon_social'] or '—' }}</p>
+          </div>
+          <div class="info-item">
+            <label>NIT:</label>
+            <p>{{ proveedor['nit'] or '—' }}</p>
+          </div>
+          <div class="info-item">
+            <label>Teléfono:</label>
+            <p>{{ proveedor['telefono'] or '—' }}</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="info-item">
+            <label>Email:</label>
+            <p>{{ proveedor['email'] or '—' }}</p>
+          </div>
+          <div class="info-item">
+            <label>Contacto:</label>
+            <p>{{ proveedor['contacto'] or '—' }}</p>
+          </div>
+          <div class="info-item">
+            <label>Producto/Servicio:</label>
+            <p>{{ proveedor['producto_servicio'] or '—' }}</p>
+          </div>
+          <div class="info-item">
+            <label>Estado:</label>
+            <p>{{ proveedor['estado'] or '—' }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end mt-3">
+        <a href="{{ url_for('proveedores.index') }}" class="btn btn-secondary btn-sm mr-2">Cancelar</a>
+        <form method="post" class="d-inline">
+          <button type="submit" class="btn btn-danger btn-sm">🗑️ Sí, Eliminar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.card-danger {
+  border: 2px solid #dc3545;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(220,53,69,0.15);
+  background: #ffffff;
+}
+.card-body {
+  background: linear-gradient(to bottom, #fff5f5 0%, #ffffff 100%);
+  border-radius: 6px;
+}
+.warning-header {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem;
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+.warning-icon {
+  font-size: 2rem;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+.warning-header h6 {
+  color: #856404;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+.warning-header p {
+  color: #856404;
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+.divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, #dc3545, transparent);
+  margin: 1rem 0;
+}
+.info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.4rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(248,249,250,0.5);
+}
+.info-item label {
+  font-weight: 600;
+  font-size: 0.7rem;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 0;
+  margin-right: 0.8rem;
+  min-width: 130px;
+  flex-shrink: 0;
+}
+.info-item p {
+  font-size: 0.8rem;
+  color: #212529;
+  margin-bottom: 0;
+  flex: 1;
+  font-weight: 500;
+}
+.btn {
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(220,53,69,0.3);
+}
+.btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+.btn-secondary:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+}
+</style>
+{% endblock %}

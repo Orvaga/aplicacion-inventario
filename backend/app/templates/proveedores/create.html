@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+
+{% block title %}Crear Proveedor{% endblock %}
+
+{% block content %}
+<div>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div id="flash-messages" class="d-none">
+        {% for category, msg in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ msg }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h5 class="mb-0">Nuevo Proveedor</h5>
+    <a href="{{ url_for('proveedores.index') }}" class="btn btn-sm btn-secondary">← Volver</a>
+  </div>
+
+  <form method="post" id="proveedorForm">
+    <div class="card mb-2">
+      <div class="card-body p-3">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group mb-2">
+              <label for="nombre" class="mb-1">Nombre <span class="text-danger">*</span></label>
+              <input type="text" class="form-control form-control-sm" id="nombre" name="nombre" required placeholder="Nombre del proveedor" maxlength="200">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-2">
+              <label for="razon_social" class="mb-1">Razón Social</label>
+              <input type="text" class="form-control form-control-sm" id="razon_social" name="razon_social" placeholder="Razón social" maxlength="200">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-2">
+              <label for="nit" class="mb-1">NIT</label>
+              <input type="text" class="form-control form-control-sm" id="nit" name="nit" placeholder="123456789-0" maxlength="30">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-2">
+              <label for="producto_servicio" class="mb-1">Producto/Servicio</label>
+              <input type="text" class="form-control form-control-sm" id="producto_servicio" name="producto_servicio" placeholder="Tipo de producto" maxlength="200">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group mb-2">
+              <label for="contacto" class="mb-1">Contacto</label>
+              <input type="text" class="form-control form-control-sm" id="contacto" name="contacto" placeholder="Nombre del contacto" maxlength="100">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-2">
+              <label for="telefono" class="mb-1">Teléfono</label>
+              <input type="tel" class="form-control form-control-sm" id="telefono" name="telefono" placeholder="300 123 4567" maxlength="20">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-2">
+              <label for="email" class="mb-1">Email</label>
+              <input type="email" class="form-control form-control-sm" id="email" name="email" placeholder="correo@ejemplo.com" maxlength="100">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-2">
+              <label for="sitio_web" class="mb-1">Sitio Web</label>
+              <input type="url" class="form-control form-control-sm" id="sitio_web" name="sitio_web" placeholder="https://ejemplo.com" maxlength="200">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group mb-2">
+              <label for="direccion" class="mb-1">Dirección</label>
+              <input type="text" class="form-control form-control-sm" id="direccion" name="direccion" placeholder="Dirección completa" maxlength="200">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-2">
+              <label for="condiciones_pago" class="mb-1">Condiciones Pago</label>
+              <input type="text" class="form-control form-control-sm" id="condiciones_pago" name="condiciones_pago" placeholder="30 días" maxlength="100">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-2">
+              <label for="fecha_registro" class="mb-1">Fecha Registro</label>
+              <input type="date" class="form-control form-control-sm" id="fecha_registro" name="fecha_registro">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-9">
+            <div class="form-group mb-0">
+              <label for="notas" class="mb-1">Notas</label>
+              <textarea class="form-control form-control-sm" id="notas" name="notas" rows="2" placeholder="Información adicional..." maxlength="2000"></textarea>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-0">
+              <label for="estado" class="mb-1">Estado</label>
+              <select id="estado" name="estado" class="form-control form-control-sm">
+                <option value="activo" selected>Activo</option>
+                <option value="inactivo">Inactivo</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <a href="{{ url_for('proveedores.index') }}" class="btn btn-sm btn-secondary mr-2">Cancelar</a>
+      <button type="submit" class="btn btn-sm btn-success">
+        💾 Guardar Proveedor
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Establecer fecha actual por defecto
+  const fechaInput = document.getElementById('fecha_registro');
+  if (!fechaInput.value) {
+    const today = new Date().toISOString().split('T')[0];
+    fechaInput.value = today;
+  }
+  
+  // Validación del formulario
+  const form = document.getElementById('proveedorForm');
+  form.addEventListener('submit', function(e) {
+    const nombre = document.getElementById('nombre').value.trim();
+    if (!nombre) {
+      e.preventDefault();
+      alert('El nombre del proveedor es obligatorio');
+      document.getElementById('nombre').focus();
+      return false;
+    }
+  });
+  
+  // Auto-focus en el primer campo
+  document.getElementById('nombre').focus();
+});
+</script>
+
+<style>
+.card {
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.form-group label {
+  font-weight: 500;
+  font-size: 0.8rem;
+  color: #495057;
+}
+.form-control-sm {
+  font-size: 0.8rem;
+  height: calc(1.5em + 0.5rem + 2px);
+  padding: 0.25rem 0.5rem;
+}
+</style>
+{% endblock %}

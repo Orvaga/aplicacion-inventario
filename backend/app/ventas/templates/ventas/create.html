@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Crear Venta{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{{ url_for('ventas.index') }}" class="btn btn-secondary">← Volver</a>
+</div>
+
+<h1>Crear Nueva Venta</h1>
+
+<form method="post" class="mt-4">
+    <div class="form-group">
+        <label for="cliente_id">Cliente</label>
+        <select class="form-control" id="cliente_id" name="cliente_id">
+            <option value="">-- Selecciona un cliente (opcional) --</option>
+            {% for cli in clientes %}
+            <option value="{{ cli['id'] }}">{{ cli['nombre'] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="numero_factura">Número de Factura</label>
+        <input type="text" class="form-control" id="numero_factura" name="numero_factura" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="metodo_pago">Método de Pago</label>
+        <select class="form-control" id="metodo_pago" name="metodo_pago">
+            <option value="">-- Selecciona --</option>
+            <option value="efectivo">Efectivo</option>
+            <option value="transferencia">Transferencia</option>
+            <option value="tarjeta">Tarjeta</option>
+            <option value="credito">Crédito</option>
+        </select>
+    </div>
+    
+    <button type="submit" class="btn btn-success">Crear</button>
+    <a href="{{ url_for('ventas.index') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

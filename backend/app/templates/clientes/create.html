@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %}Crear Cliente{% endblock %}
+
+{% block content %}
+<div>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div id="flash-messages" class="d-none">
+        {% for category, msg in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ msg }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h5 class="mb-0">Nuevo Cliente</h5>
+    <a href="{{ url_for('clientes.index') }}" class="btn btn-sm btn-secondary">← Volver</a>
+  </div>
+
+  <form method="post" id="clienteForm">
+    <div class="card mb-2">
+      <div class="card-body p-3">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group mb-2">
+              <label for="nombre" class="mb-1">Nombre <span class="text-danger">*</span></label>
+              <input type="text" class="form-control form-control-sm" id="nombre" name="nombre" required placeholder="Nombre del cliente" maxlength="200">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group mb-2">
+              <label for="tipo" class="mb-1">Tipo</label>
+              <select class="form-control form-control-sm" id="tipo" name="tipo">
+                <option value="persona_fisica">Persona Física</option>
+                <option value="persona_moral">Persona Moral</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group mb-2">
+              <label for="rfc" class="mb-1">RFC</label>
+              <input type="text" class="form-control form-control-sm" id="rfc" name="rfc" placeholder="RFC" maxlength="13">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group mb-2">
+              <label for="telefono" class="mb-1">Teléfono</label>
+              <input type="tel" class="form-control form-control-sm" id="telefono" name="telefono" placeholder="300 123 4567" maxlength="20">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group mb-2">
+              <label for="email" class="mb-1">Email</label>
+              <input type="email" class="form-control form-control-sm" id="email" name="email" placeholder="correo@ejemplo.com" maxlength="100">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group mb-2">
+              <label for="credito_limite" class="mb-1">Crédito Límite</label>
+              <input type="number" step="0.01" class="form-control form-control-sm" id="credito_limite" name="credito_limite" value="0" min="0" placeholder="0.00">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group mb-0">
+              <label for="direccion" class="mb-1">Dirección</label>
+              <textarea class="form-control form-control-sm" id="direccion" name="direccion" rows="2" placeholder="Dirección completa..." maxlength="300"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <a href="{{ url_for('clientes.index') }}" class="btn btn-sm btn-secondary mr-2">Cancelar</a>
+      <button type="submit" class="btn btn-sm btn-success">
+        💾 Guardar Cliente
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('clienteForm');
+  form.addEventListener('submit', function(e) {
+    const nombre = document.getElementById('nombre').value.trim();
+    if (!nombre) {
+      e.preventDefault();
+      alert('El nombre del cliente es obligatorio');
+      document.getElementById('nombre').focus();
+      return false;
+    }
+  });
+  document.getElementById('nombre').focus();
+});
+</script>
+
+<style>
+.card {
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.form-group label {
+  font-weight: 500;
+  font-size: 0.8rem;
+  color: #495057;
+}
+.form-control-sm {
+  font-size: 0.8rem;
+  height: calc(1.5em + 0.5rem + 2px);
+  padding: 0.25rem 0.5rem;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% block title %}Productos - Lista{% endblock %}
+
+<div id="page-meta" data-title="Productos" data-breadcrumbs="Inicio|Productos" class="d-none"></div>
+<div id="main-content">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div id="flash-messages" class="d-none">
+        {% for category, msg in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ msg }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="mb-0">Productos</h4>
+      <a href="{{ url_for('productos.create') }}" data-new-href="{{ url_for('productos.create') }}" class="btn btn-sm btn-primary">+ Nuevo</a>
+  </div>
+
+  {% if productos|length == 0 %}
+    <div class="alert alert-info">No hay productos registrados.</div>
+  {% else %}
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover table-sm compact-table mb-0">
+        <thead class="thead-light">
+          <tr>
+            <th>SKU</th>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th class="text-right">Precio</th>
+            <th class="col-actions-md">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in productos %}
+          <tr>
+            <td><strong>{{ p['sku'] or '-' }}</strong></td>
+            <td>{{ p['nombre'] }}</td>
+            <td>{{ p['categoria'] or '-' }}</td>
+            <td class="text-right">{{ '%.2f'|format(p['precio_venta'] or 0) }}</td>
+            <td class="text-center">
+              <a href="{{ url_for('productos.view', id=p['id']) }}" class="btn btn-sm btn-info">Ver</a>
+              <a href="{{ url_for('productos.edit', id=p['id']) }}" class="btn btn-sm btn-warning">Editar</a>
+              <a href="{{ url_for('productos.delete', id=p['id']) }}" class="btn btn-sm btn-danger">Eliminar</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+</div>

@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Proveedor{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{{ url_for('proveedores.index') }}" class="btn btn-secondary">← Volver</a>
+</div>
+
+<h1>Editar Proveedor</h1>
+
+<form method="post" class="mt-4">
+    <div class="row mb-3">
+        <div class="col-md-8">
+            <h5 class="mb-2">Datos generales</h5>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="nombre">Nombre <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del proveedor" required value="{{ proveedor['nombre'] }}">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="razon_social">Razón social</label>
+                    <input type="text" class="form-control" id="razon_social" name="razon_social" placeholder="Razón social o empresa" value="{{ proveedor['razon_social'] or '' }}">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="nit">NIT</label>
+                    <input type="text" class="form-control" id="nit" name="nit" placeholder="NIT / Identificador fiscal" value="{{ proveedor['nit'] or '' }}">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="producto_servicio">Producto/Servicio</label>
+                    <input type="text" class="form-control" id="producto_servicio" name="producto_servicio" placeholder="Categoría principal" value="{{ proveedor['producto_servicio'] or '' }}">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="fecha_registro">Fecha de registro</label>
+                    <input type="date" class="form-control" id="fecha_registro" name="fecha_registro" value="{{ proveedor['fecha_registro']|default('') }}">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h5 class="mb-2">Estado</h5>
+            <div class="form-group">
+                <label for="estado">Estado</label>
+                <select id="estado" name="estado" class="form-control">
+                    <option value="activo" {% if proveedor['estado'] == 'activo' %}selected{% endif %}>Activo</option>
+                    <option value="inactivo" {% if proveedor['estado'] == 'inactivo' %}selected{% endif %}>Inactivo</option>
+                </select>
+            </div>
+            <h5 class="mt-3 mb-2">Sitio & Contacto</h5>
+            <div class="form-group">
+                <label for="sitio_web">Sitio web</label>
+                <input type="url" class="form-control" id="sitio_web" name="sitio_web" placeholder="https://empresa.com" value="{{ proveedor['sitio_web'] or '' }}">
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <h5 class="mb-2">Contacto</h5>
+            <div class="form-group">
+                <label for="contacto">Contacto</label>
+                <input type="text" class="form-control" id="contacto" name="contacto" placeholder="Nombre de la persona de contacto" value="{{ proveedor['contacto'] or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Teléfono o móvil" value="{{ proveedor['telefono'] or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="contacto@empresa.com" value="{{ proveedor['email'] or '' }}">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h5 class="mb-2">Comercial</h5>
+            <div class="form-group">
+                <label for="condiciones_pago">Condiciones de Pago</label>
+                <input type="text" class="form-control" id="condiciones_pago" name="condiciones_pago" placeholder="30 días / Contado" value="{{ proveedor['condiciones_pago'] or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="notas">Notas</label>
+                <textarea class="form-control" id="notas" name="notas" rows="6" placeholder="Información adicional (ej. descuentos, preferencias)">{{ proveedor['notas'] or '' }}</textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-warning mr-2">Actualizar Proveedor</button>
+        <a href="{{ url_for('proveedores.index') }}" class="btn btn-secondary">Cancelar</a>
+    </div>
+</form>
+{% endblock %}
+    <form method="post" class="mt-4">
+    <div class="row mb-3">
+        <div class="col-md-8">
+            <h5 class="mb-2">Datos generales</h5>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="nombre">Nombre <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" required value="{{ proveedor['nombre'] }}">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="razon_social">Razón social</label>
+                    <input type="text" class="form-control" id="razon_social" name="razon_social" value="{{ proveedor['razon_social'] or '' }}">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="nit">NIT</label>
+                    <input type="text" class="form-control" id="nit" name="nit" value="{{ proveedor['nit'] or '' }}">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="producto_servicio">Producto/Servicio</label>
+                    <input type="text" class="form-control" id="producto_servicio" name="producto_servicio" value="{{ proveedor['producto_servicio'] or '' }}">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="fecha_registro">Fecha de registro</label>
+                    <input type="date" class="form-control" id="fecha_registro" name="fecha_registro" value="{{ proveedor['fecha_registro']|default('') }}">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h5 class="mb-2">Estado</h5>
+            <div class="form-group">
+                <label for="estado">Estado</label>
+                <select id="estado" name="estado" class="form-control">
+                    <option value="activo" {% if proveedor['estado'] == 'activo' %}selected{% endif %}>Activo</option>
+                    <option value="inactivo" {% if proveedor['estado'] == 'inactivo' %}selected{% endif %}>Inactivo</option>
+                </select>
+            </div>
+            <h5 class="mt-3 mb-2">Sitio & Contacto</h5>
+            <div class="form-group">
+                <label for="sitio_web">Sitio web</label>
+                <input type="url" class="form-control" id="sitio_web" name="sitio_web" value="{{ proveedor['sitio_web'] or '' }}">
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <h5 class="mb-2">Contacto</h5>
+            <div class="form-group">
+                <label for="contacto">Contacto</label>
+                <input type="text" class="form-control" id="contacto" name="contacto" value="{{ proveedor['contacto'] or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input type="text" class="form-control" id="telefono" name="telefono" value="{{ proveedor['telefono'] or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ proveedor['email'] or '' }}">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h5 class="mb-2">Comercial</h5>
+            <div class="form-group">
+                <label for="condiciones_pago">Condiciones de Pago</label>
+                <input type="text" class="form-control" id="condiciones_pago" name="condiciones_pago" value="{{ proveedor['condiciones_pago'] or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="notas">Notas</label>
+                <textarea class="form-control" id="notas" name="notas" rows="6">{{ proveedor['notas'] or '' }}</textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-warning mr-2">Actualizar Proveedor</button>
+        <a href="{{ url_for('proveedores.index') }}" class="btn btn-secondary ajax-link">Cancelar</a>
+    </div>
+    </form>
+        </select>
+    </div>
+    
+    <!-- 'activo' removed for proveedores; use 'estado' -->
+    
+    <div class="form-group">
+        <label for="notas">Notas / Observaciones</label>
+        <textarea class="form-control" id="notas" name="notas" rows="3">{{ proveedor['notas'] or '' }}</textarea>
+    </div>
+    
+    <button type="submit" class="btn btn-warning">Actualizar</button>
+    <a href="{{ url_for('proveedores.index') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

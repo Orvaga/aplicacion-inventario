@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ cliente['nombre'] }}{% endblock %}
+
+{% block content %}
+<div>
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h5 class="mb-0">Consulta Cliente</h5>
+    <div>
+      <a href="{{ url_for('clientes.index') }}" class="btn btn-sm btn-secondary mr-2">← Volver</a>
+      <a href="{{ url_for('clientes.edit', id=cliente['id']) }}" class="btn btn-sm btn-warning mr-2">Editar</a>
+      <a href="{{ url_for('clientes.delete', id=cliente['id']) }}" class="btn btn-sm btn-danger">Eliminar</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body p-3">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="info-item">
+            <label>Nombre:</label>
+            <p>{{ cliente['nombre'] }}</p>
+          </div>
+          <div class="info-item">
+            <label>Tipo:</label>
+            <p>{{ cliente['tipo'] }}</p>
+          </div>
+          <div class="info-item">
+            <label>RFC:</label>
+            <p>{{ cliente['rfc'] or '—' }}</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="info-item">
+            <label>Teléfono:</label>
+            <p>{{ cliente['telefono'] or '—' }}</p>
+          </div>
+          <div class="info-item">
+            <label>Email:</label>
+            <p>{{ cliente['email'] or '—' }}</p>
+          </div>
+          <div class="info-item">
+            <label>Crédito Límite:</label>
+            <p>${{ '%.2f'|format(cliente['credito_limite'] or 0) }}</p>
+          </div>
+          <div class="info-item">
+            <label>Dirección:</label>
+            <p>{{ cliente['direccion'] or '—' }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.card {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  background: #ffffff;
+}
+.card-body {
+  background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
+  border-radius: 8px;
+}
+.row > .col-md-6:first-child {
+  border-right: 2px solid #e9ecef;
+  padding-right: 1.5rem;
+}
+.row > .col-md-6:last-child {
+  padding-left: 1.5rem;
+}
+.info-item {
+  margin-bottom: 0.65rem;
+  display: flex;
+  align-items: flex-start;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+.info-item:hover {
+  background-color: #f8f9fa;
+}
+.info-item label {
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: #6c757d;
+  margin-bottom: 0;
+  margin-right: 1rem;
+  min-width: 130px;
+  flex-shrink: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.info-item p {
+  font-size: 0.85rem;
+  color: #212529;
+  margin-bottom: 0;
+  flex: 1;
+  word-break: break-word;
+  font-weight: 500;
+}
+</style>
+{% endblock %}

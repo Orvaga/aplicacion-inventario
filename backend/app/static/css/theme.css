@@ -1,0 +1,276 @@
+:root {
+    --bg: #f6f8fb;
+    --surface: #ffffff;
+    --primary: #0b5ed7;
+    --primary-dark: #073b9a;
+    --accent: #ffc107;
+    --muted: #6c757d;
+    --text: #22303c;
+    --card-shadow: 0 6px 18px rgba(20,30,50,0.06);
+}
+body { background: var(--bg); color: var(--text, #22303c); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; padding-bottom: 40px; }
+/* Navbar Horizontal - Diseño Azul y Amarillo - FIJO */
+.navbar-app{ 
+    background: linear-gradient(135deg, #0b5ed7 0%, #073b9a 100%);
+    border-bottom: 3px solid var(--accent);
+    box-shadow: 0 4px 12px rgba(11, 94, 215, 0.15);
+    padding: 0.5rem 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1050;
+}
+.navbar-app .navbar-brand{ 
+    color: #ffffff !important; 
+    font-weight: 700; 
+    letter-spacing: .3px;
+    font-size: 1.3rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.navbar-app .navbar-brand:hover{ 
+    color: var(--accent) !important;
+    transition: color 0.3s ease;
+}
+.navbar-app .nav-link{ 
+    color: rgba(255, 255, 255, 0.9) !important; 
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem !important;
+    margin: 0 0.2rem;
+    border-radius: 6px;
+    font-weight: 500;
+}
+.navbar-app .nav-link:hover{ 
+    color: #ffffff !important;
+    background: rgba(255, 193, 7, 0.2);
+    transform: translateY(-1px);
+}
+.navbar-app .nav-link.active{ 
+    color: var(--primary-dark) !important; 
+    background: var(--accent);
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+}
+.navbar-app .navbar-toggler{ 
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+}
+.navbar-app .navbar-toggler:hover{ 
+    border-color: var(--accent);
+    background: rgba(255, 193, 7, 0.1);
+}
+.navbar-app .navbar-toggler-icon{ 
+    width: 20px; 
+    height: 14px; 
+    display:inline-block; 
+    background-image: linear-gradient(#ffffff 0 0); 
+    background-size: 20px 2px, 20px 2px, 14px 2px; 
+    background-position: 0 0, 0 6px, 0 12px; 
+    background-repeat: no-repeat; 
+}
+
+/* Sidebar Lateral - Diseño Azul y Amarillo - FIJO */
+.sidebar{ 
+    background: linear-gradient(180deg, #ffffff 0%, #f0f7ff 100%);
+    border-left: 4px solid var(--primary);
+    border-radius: 0 12px 12px 0;
+    padding: 20px 12px;
+    margin: 0;
+    box-shadow: 4px 0 16px rgba(11, 94, 215, 0.1);
+    position: fixed;
+    top: 68px;
+    left: 0;
+    height: calc(100vh - 68px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 250px;
+    z-index: 1040;
+}
+.sidebar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--primary) 0%, var(--accent) 100%);
+    z-index: 0;
+}
+.sidebar h5 {
+    color: var(--primary-dark);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgba(11, 94, 215, 0.1);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+}
+.sidebar .nav-link{ 
+    color: #4b5661; 
+    padding: 12px 16px; 
+    border-radius: 10px; 
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    font-weight: 500;
+    border: 2px solid transparent;
+}
+.sidebar .nav-link .icon,
+.sidebar .nav-link .menu-icon{ 
+    font-size: 1.2rem; 
+    margin-right: 0.75rem;
+    transition: transform 0.3s ease;
+    color: var(--primary);
+}
+.sidebar .nav-link:hover{ 
+    background: linear-gradient(90deg, rgba(11, 94, 215, 0.08) 0%, rgba(255, 193, 7, 0.12) 100%);
+    color: var(--primary-dark);
+    border-color: rgba(11, 94, 215, 0.2);
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(11, 94, 215, 0.1);
+}
+.sidebar .nav-link:hover .icon,
+.sidebar .nav-link:hover .menu-icon {
+    transform: scale(1.1);
+    color: var(--accent);
+}
+.sidebar .nav-link.active{ 
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    border-color: var(--accent);
+    box-shadow: 0 4px 12px rgba(11, 94, 215, 0.3);
+    font-weight: 600;
+}
+.sidebar .nav-link.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 70%;
+    background: var(--accent);
+    border-radius: 0 4px 4px 0;
+}
+.sidebar .nav-link.active .icon,
+.sidebar .nav-link.active .menu-icon {
+    color: var(--accent);
+    filter: brightness(1.2);
+}
+.sidebar .nav-link:focus{ 
+    outline: none; 
+    box-shadow: 0 0 0 3px rgba(11, 94, 215, 0.2);
+}
+.sidebar .mt-auto {
+    margin-top: auto;
+    padding-top: 1.5rem;
+    border-top: 2px solid rgba(11, 94, 215, 0.1);
+    position: relative;
+    z-index: 1;
+}
+.sidebar .mt-auto .text-muted {
+    color: var(--primary-dark);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+/* Improved visible focus styles for accessibility */
+a:focus, button:focus, .nav-link:focus, .btn:focus{ outline: none; box-shadow: 0 0 0 3px rgba(11,94,215,0.12); }
+:focus-visible{ outline: 2px solid rgba(11,94,215,0.16); outline-offset: 2px; }
+/* Sidebar Móvil */
+@media (max-width: 767px){ 
+    .sidebar{ 
+        position: fixed; 
+        top: 68px; 
+        left: -320px; 
+        width: 280px; 
+        height: calc(100vh - 68px); 
+        z-index: 1200; 
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+        box-shadow: 4px 0 24px rgba(11, 94, 215, 0.25); 
+        margin: 0;
+        border-radius: 0 16px 16px 0;
+        overflow-y: auto;
+    } 
+    .sidebar.open{ 
+        left: 0; 
+    } 
+    .content-overlay { 
+        position: fixed; 
+        inset: 68px 0 0 0; 
+        background: rgba(11, 94, 215, 0.4); 
+        backdrop-filter: blur(2px);
+        z-index: 1198; 
+        display: none; 
+        transition: opacity 0.3s ease;
+    } 
+    .content-overlay.visible{ 
+        display: block; 
+    }
+    #main-content{ 
+        margin-left: 0 !important; 
+    }
+    .app-row{ 
+        margin-top: 68px; 
+    }
+}
+.noscroll{ overflow: hidden; }
+.hero{ background: var(--surface); border-radius: 10px; padding: 24px; box-shadow: var(--card-shadow); }
+.hero .display-4{ color: var(--primary-dark); }
+.hero p.lead{ color: #616e7a; }
+.btn-outline-primary{ color: var(--primary); border-color: rgba(11,94,215,0.12); background-color: rgba(11,94,215,0.02); }
+.btn-outline-primary:hover{ background-color: rgba(11,94,215,0.06); border-color: var(--primary); }
+.btn-primary{ background-color: var(--primary); border-color: var(--primary-dark); color: white; }
+.btn-primary:hover{ background-color: var(--primary-dark); border-color: var(--primary-dark); }
+.btn-accent{ background-color: var(--accent); color: var(--primary-dark); border: none; }
+.btn-accent:hover{ background-color: #ffb703; }
+.btn-warning{ background-color: var(--accent); border-color: rgba(0,0,0,0.06); color: var(--primary-dark); }
+.btn-warning:hover{ background-color: #ffb703; }
+.badge-primary{ background: var(--primary); color: white; }
+.badge-warning, .badge-accent{ background: var(--accent); color: var(--primary-dark); }
+.brand-table-header{ background: linear-gradient(180deg, var(--primary), var(--primary-dark)) !important; color: white !important; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important; height: 26px !important; overflow: hidden; }
+.brand-table-header tr{ height: 26px !important; display: table-row; }
+.brand-table-header th{ padding: 0px 5px !important; font-weight: 600 !important; border: none !important; color: white !important; background: transparent !important; white-space: nowrap; font-size: 0.75rem; height: 26px !important; line-height: 26px !important; display: table-cell; vertical-align: middle !important; }
+.price-value{ color: var(--primary-dark); font-weight: 600; }
+.number-text{ color: var(--primary-dark); font-weight: 500; }
+.muted-text{ color: var(--muted); }
+.table thead th{ background: #fbfcfe; border-bottom: 2px solid rgba(0,0,0,0.04); }
+.table{ border-collapse: separate; border-spacing: 0; }
+.kpi-card{ background: var(--surface); border-radius: 8px; padding: 12px; box-shadow: var(--card-shadow); }
+.muted{ color: var(--muted); }
+.alert-primary{ background-color: rgba(11,94,215,0.08); color: var(--primary); border-color: rgba(11,94,215,0.12); }
+
+/* Fixed flash container utility */
+#flash-container.flash-fixed{ position: fixed; top: 70px; right: 20px; z-index: 1060; }
+
+/* Small utility classes */
+.btn-xs{ padding: .1rem .3rem; font-size: .7rem; line-height: 1.2; }
+.btn-compact{ padding: .1rem .3rem; font-size: .7rem; line-height: 1.2; }
+.cell-small{ padding: 0px 5px; font-size: 0.75rem; line-height: 1.1; height: 22px; vertical-align: middle; }
+.cell-muted{ color: var(--muted); }
+/* utility for truncated cell content */
+.cell-ellipsis{ max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* utility for moderate font weight used in several cells */
+.fw-500{ font-weight: 500; }
+/* action column widths */
+.col-actions-sm{ text-align: center; width: 80px; }
+.col-actions-md{ text-align: center; width: 160px; }
+.row-divider{ border-bottom: 1px solid #ecf0f1; transition: background-color 0.2s; }
+.app-row{ min-height: 80vh; margin-top: 68px; }
+/*.sidebar-col{ width: 250px; flex-shrink: 0; padding: 0; }*/
+#main-content{ margin-left: 250px; padding: 0 !important; }
+.icon{ font-size: 1.15rem; margin-right: .5rem; }
+.menu-icon{ width: 1.15rem; height: 1.15rem; margin-right: .5rem; vertical-align: text-bottom; stroke: currentColor; fill: none; stroke-width: 1.5px; }
+.excel-grid td:focus, .excel-grid td.editing{ outline: 2px solid rgba(11,94,215,0.18); background-color: #fffbe6; }
+.excel-grid tbody tr:first-child td{ padding-top: 2px !important; border-top: 2px solid #dee2e6; }
+.excel-grid tbody tr:nth-child(even){ background-color: #fbfcfe; }
+.excel-grid tbody tr:hover{ background-color: #f3f7ff !important; }
+.excel-grid td.text-right{ font-family: SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace; color: var(--primary-dark); }
+.kpi-card{ background: var(--surface); border-radius: 8px; padding: 12px; box-shadow: var(--card-shadow); }

@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+
+{% block title %}HUILA APP{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-start mb-3">
+    <div>
+        <h3 id="page-title" class="mb-1">Panel</h3>
+        <nav aria-label="breadcrumb">
+            <ol id="page-breadcrumbs" class="breadcrumb mb-0">
+                <li class="breadcrumb-item active">Inicio</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div id="content-wrapper">
+    <!-- Clean, modern hero content -->
+    <section class="hero py-5 text-center">
+        <div class="container">
+            <h1 class="display-4 font-weight-bold">COMBUSTIBLES HUILA</h1>
+            <p class="lead text-muted">Bienvenido al panel de administración. Usa el menú para navegar por las funcionalidades.</p>
+            <div class="d-flex justify-content-center mt-4">
+                <a class="btn btn-primary mr-2" href="{{ url_for('productos.index') }}">Productos</a>
+                <a class="btn btn-accent mr-2" href="{{ url_for('ventas.index') }}">Ventas</a>
+                <a class="btn btn-outline-primary" href="{{ url_for('proveedores.index') }}">Proveedores</a>
+            </div>
+        </div>
+    </section>
+    <!-- Placeholder content area for AJAX views -->
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const contentWrapper = document.getElementById('content-wrapper');
+    const pageTitle = document.getElementById('page-title');
+    const pageBreadcrumbs = document.getElementById('page-breadcrumbs');
+
+    function setLoading() {
+        contentWrapper.innerHTML = '<div class="text-center p-5"><div class="spinner-border" role="status"></div><br>Cargando...</div>';
+    }
+
+    function renderHTML(htmlText, defaultTitle) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlText, 'text/html');
+
+        // Buscar metadatos de la página en el HTML cargado
+        const meta = doc.querySelector('#page-meta');
+        if (meta) {
+            const title = meta.dataset.title || defaultTitle || 'Panel';
+            pageTitle.textContent = title;
+            // Breadcrumbs: formato CSV en data-breadcrumbs o elementos li
+            if (meta.dataset.breadcrumbs) {
+                const crumbs = meta.dataset.breadcrumbs.split('|');
+                pageBreadcrumbs.innerHTML = '';
+                crumbs.forEach((c, i) => {
+                    const li = document.createElement('li');
+                    li.className = 'breadcrumb-item' + (i === crumbs.length - 1 ? ' active' : '');
+                    if (i === crumbs.length - 1) li.textContent = c; else {
+                        const a = document.createElement('a'); a.href = '#'; a.textContent = c; li.appendChild(a);
+                    }
+                    pageBreadcrumbs.appendChild(li);
+                });
+            }
+        } else {
+            // Fallback: buscar un título en el HTML
+            const h = doc.querySelector('h1, h2, h3');
+            pageTitle.textContent = (h && h.textContent) ? h.textContent.trim() : defaultTitle || 'Panel';
+            pageBreadcrumbs.innerHTML = '<li class="breadcrumb-item active">' + pageTitle.textContent + '</li>';
+        }
+
+        // Extraer el contenido principal (intentar por id, luego por .main-content, luego body)
+        let content = doc.querySelector('#main-content') || doc.querySelector('.main-content') || doc.body;
+        contentWrapper.innerHTML = content.innerHTML;
+
+        // Inicializar filtros y comportamiento tipo Excel en el contenido cargado
+        try {
+            if (typeof window.initTableFilters === 'function') window.initTableFilters(contentWrapper);
+            if (typeof window.initExcelGrids === 'function') window.initExcelGrids(contentWrapper);
+        } catch (e) { console.error('init enhancements error', e); }
+
+        // Actualizar visibilidad del botón Limpiar globala (puede haber sido utilizado y quedado con texto)
+        try { updateClearButton(); } catch (e) { /* ignore */ }
+
+        // Procesar mensajes flash que vengan en el fragmento y mostrarlos en el contenedor global
+        const flashEl = doc.querySelector('#flash-messages');
+        if (flashEl && typeof window.showFlashHTML === 'function') {
+            window.showFlashHTML(flashEl.innerHTML);
+        }
+    }
+
+    // Manejador central para enlaces del menú (nav-link) y enlaces internos marcados con .ajax-link
+    document.addEventListener('click', function(e) {
+        const a = e.target.closest('a');
+        if (!a) return;
+        if (a.classList.contains('nav-link') || a.classList.contains('ajax-link')) {
+            // enlaces que queremos cargar por AJAX
+            const href = a.getAttribute('href');
+            if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
+            e.preventDefault();
+            setLoading();
+            fetch(href, { credentials: 'same-origin' })
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.text();
+                })
+                .then(html => {
+                    renderHTML(html, a.textContent.trim());
+                    // actualizar historial
+                    try { history.pushState({ ajax: true }, '', href); } catch (err) {}
+                })
+                .catch(() => {
+                    contentWrapper.innerHTML = '<div class="alert alert-danger">Error al cargar el contenido.</div>';
+                });
+        }
+    });
+
+    // Manejar navegación con back/forward
+    window.addEventListener('popstate', function(e) {
+        const url = location.pathname + location.search;
+        setLoading();
+        fetch(url, { credentials: 'same-origin' })
+            .then(r => r.text())
+            .then(html => renderHTML(html))
+            .catch(() => { contentWrapper.innerHTML = '<div class="alert alert-danger">Error al cargar historial.</div>'; });
+    });
+
+    // Search button simple behavior: (optional) if search is present
+    const searchBtnEl = document.getElementById('search-btn');
+    if (searchBtnEl) {
+        const searchInputEl = document.getElementById('search-input');
+        searchBtnEl.addEventListener('click', function() {
+            if (!searchInputEl) return;
+            const q = searchInputEl.value.trim().toLowerCase();
+            if (!q) return;
+            // Buscar en las filas de tablas dentro del contentWrapper
+            const rows = contentWrapper.querySelectorAll('table tbody tr');
+            if (rows.length) {
+                rows.forEach(r => {
+                    const text = r.textContent.toLowerCase();
+                    r.style.display = text.includes(q) ? '' : 'none';
+                });
+            }
+        });
+    }
+
+    // Mostrar/ocultar botón Limpiar según el contenido del input (si existe)
+    const searchInput = document.getElementById('search-input');
+    const searchClearBtn = document.getElementById('search-clear');
+    function updateClearButton() {
+        if (!searchInput || !searchClearBtn) return;
+        if (searchInput.value && searchInput.value.trim().length > 0) {
+            searchClearBtn.classList.remove('d-none');
+        } else {
+            searchClearBtn.classList.add('d-none');
+        }
+    }
+
+    // Mostrar/ocultar en tiempo real si el input existe
+    if (searchInput) {
+        searchInput.addEventListener('input', updateClearButton);
+        // Ocultar al iniciar
+        updateClearButton();
+    }
+
+    // Global clear button for search: (optional) if present; respects no global search mode
+    const searchClearEl = document.getElementById('search-clear');
+    if (searchClearEl) {
+        searchClearEl.addEventListener('click', function() {
+            const input = document.getElementById('search-input');
+            if (input) input.value = '';
+            // Mostrar todas las filas en tablas (en caso de que el buscador simple use display:none)
+            const rows = contentWrapper.querySelectorAll('table tbody tr');
+            if (rows.length) {
+                rows.forEach(r => {
+                    r.style.display = '';
+                    r.classList.remove('hidden');
+                });
+            }
+            // Disparar keyup para que TableFilter vea el cambio
+            try {
+                const evt = new Event('keyup');
+                if (input) input.dispatchEvent(evt);
+            } catch (e) { /* no-critical */ }
+            // Ocultar el botón una vez vacío
+            try { updateClearButton(); } catch (e) { }
+        });
+    }
+
+    // Acción Nuevo: (opcional) si existe el botón
+    const actionNewEl = document.getElementById('action-new');
+    if (actionNewEl) {
+        actionNewEl.addEventListener('click', function() {
+            const newEl = contentWrapper.querySelector('[data-new-href]');
+            if (newEl) {
+                const url = newEl.dataset.newHref;
+                setLoading();
+                fetch(url).then(r => r.text()).then(html => renderHTML(html, 'Nuevo'));
+            } else {
+                alert('La vista actual no define una acción "Nuevo".');
+            }
+        });
+    }
+
+    // Interceptar envíos de formularios dentro del área dinámica y hacerlos por AJAX
+    document.addEventListener('submit', function(e) {
+        const form = e.target;
+        if (!contentWrapper.contains(form)) return; // solo formularios dentro del content
+        e.preventDefault();
+        const action = form.getAttribute('action') || location.pathname;
+        const method = (form.getAttribute('method') || 'get').toUpperCase();
+        const formData = new FormData(form);
+        let opts = { method: method, credentials: 'same-origin' };
+        if (method === 'GET') {
+            const params = new URLSearchParams(formData).toString();
+            const url = action + (action.includes('?') ? '&' : '?') + params;
+            setLoading();
+            fetch(url, opts).then(r => r.text()).then(html => renderHTML(html)).catch(() => { contentWrapper.innerHTML = '<div class="alert alert-danger">Error al enviar el formulario.</div>'; });
+        } else {
+            opts.body = formData;
+            setLoading();
+            fetch(action, opts).then(r => r.text()).then(html => renderHTML(html)).catch(() => { contentWrapper.innerHTML = '<div class="alert alert-danger">Error al enviar el formulario.</div>'; });
+        }
+    });
+});
+</script>
+{% endblock %}

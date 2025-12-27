@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ cliente['nombre'] }}{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{{ url_for('clientes.index') }}" class="btn btn-secondary">← Volver</a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2>{{ cliente['nombre'] }}</h2>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Tipo:</dt>
+            <dd class="col-sm-9">{{ cliente['tipo'] }}</dd>
+            
+            <dt class="col-sm-3">RFC:</dt>
+            <dd class="col-sm-9">{{ cliente['rfc'] or '-' }}</dd>
+            
+            <dt class="col-sm-3">Dirección:</dt>
+            <dd class="col-sm-9">{{ cliente['direccion'] or '-' }}</dd>
+            
+            <dt class="col-sm-3">Teléfono:</dt>
+            <dd class="col-sm-9">{{ cliente['telefono'] or '-' }}</dd>
+            
+            <dt class="col-sm-3">Email:</dt>
+            <dd class="col-sm-9">{{ cliente['email'] or '-' }}</dd>
+            
+            <dt class="col-sm-3">Crédito Límite:</dt>
+            <dd class="col-sm-9">{{ '%.2f'|format(cliente['credito_limite'] or 0) }}</dd>
+        </dl>
+    </div>
+    <div class="card-footer">
+        <a href="{{ url_for('clientes.edit', id=cliente['id']) }}" class="btn btn-warning">Editar</a>
+        <a href="{{ url_for('clientes.delete', id=cliente['id']) }}" class="btn btn-danger">Eliminar</a>
+    </div>
+</div>
+{% endblock %}

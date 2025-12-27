@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}COMBUSTIBLES HUILA App{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/theme.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/tables.css') }}" rel="stylesheet">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-app">
+      <div class="container-fluid d-flex align-items-center">
+          <button id="sidebarToggle" class="btn d-lg-none mr-2" aria-label="Abrir menú" aria-controls="sidebar" aria-expanded="false" title="Abrir menú">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand" href="/">COMBUSTIBLES HUILA</a>
+      </div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('productos.index') }}">Productos</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('proveedores.index') }}">Proveedores</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('clientes.index') }}">Clientes</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('compras.index') }}">Compras</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('ventas.index') }}">Ventas</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('almacen.index') }}">Almacén</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('empleados.index') }}">Empleados</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div id="flash-container" aria-live="polite" aria-atomic="true" class="flash-fixed"></div>
+
+    <div class="container-fluid">
+      <div class="row app-row">
+        <div class="col-auto px-0 sidebar-col">
+          <nav id="sidebar" class="sidebar d-flex flex-column justify-content-start" aria-label="Menú principal">
+            <h5 class="mb-3 text-center">Menú</h5>
+            <ul class="nav nav-pills flex-column">
+              <li class="nav-item mb-2">
+                <a class="nav-link d-flex align-items-center" href="{{ url_for('productos.index') }}">
+                  <svg class="menu-icon" aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                  <span>Productos</span>
+                </a>
+              </li>
+              <li class="nav-item mb-2">
+                <a class="nav-link d-flex align-items-center" href="{{ url_for('proveedores.index') }}">
+                  <svg class="menu-icon" aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M3 21h18v-2H3v2zm14-10V3H7v8H5v10h14V11h-2zM9 12h2v2H9v-2zM13 12h2v2h-2v-2z"></path></svg>
+                  <span>Proveedores</span>
+                </a>
+              </li>
+              <li class="nav-item mb-2">
+                <a class="nav-link d-flex align-items-center" href="{{ url_for('clientes.index') }}">
+                  <svg class="menu-icon" aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zM6 11c1.66 0 3-1.34 3-3S7.66 5 6 5 3 6.34 3 8s1.34 3 3 3zm10 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"></path></svg>
+                  <span>Clientes</span>
+                </a>
+              </li>
+              <li class="nav-item mb-2">
+                <a class="nav-link d-flex align-items-center" href="{{ url_for('compras.index') }}">
+                  <svg class="menu-icon" aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M7 4h-2l-1 2H1v2h2l4 9h9v-2H8.2L7 8h11a1 1 0 0 0 .96-.74L20.5 4h-2.5L16.2 7H7.8L7 4zM7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM17 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
+                  <span>Compras</span>
+                </a>
+              </li>
+              <li class="nav-item mb-2">
+                <a class="nav-link d-flex align-items-center" href="{{ url_for('ventas.index') }}">
+                  <svg class="menu-icon" aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M20 4H4c-1.1 0-2 .9-2 2v3h20V6c0-1.1-.9-2-2-2zM2 12v6c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-6H2zm5 3h5v2H7v-2z"/></svg>
+                  <span>Ventas</span>
+                </a>
+              </li>
+              <li class="nav-item mb-2">
+                <a class="nav-link d-flex align-items-center" href="{{ url_for('almacen.index') }}">
+                  <svg class="menu-icon" aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M3 13h4v8H3v-8zM10 7h4v14h-4V7zM17 3h4v18h-4V3z"></path></svg>
+                  <span>Almacén</span>
+                </a>
+              </li>
+            </ul>
+            <div class="mt-auto text-center muted small p-2">
+              <div>App HUILA</div>
+              <div class="text-muted">v1.0</div>
+            </div>
+          </nav>
+        </div>
+        <div class="col px-0" id="main-content">
+          <div id="content-overlay" class="content-overlay d-none"></div>
+          <div class="container-fluid py-3 px-3">
+            {% block content %}{% endblock %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/table-filters.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/table-excel.js') }}"></script>
+
+    <script>
+    // Sidebar toggle functionality
+    document.addEventListener('DOMContentLoaded', function(){
+      const toggle = document.getElementById('sidebarToggle');
+      if (toggle) {
+        toggle.addEventListener('click', function(e){
+          const sidebar = document.querySelector('.sidebar');
+          const overlay = document.querySelector('#content-overlay');
+          if (!sidebar) return;
+          const open = sidebar.classList.toggle('open');
+          if (overlay) {
+            overlay.classList.toggle('visible', open);
+            if (open) { 
+              overlay.classList.remove('d-none'); 
+              document.body.classList.add('noscroll'); 
+            } else { 
+              overlay.classList.add('d-none'); 
+              document.body.classList.remove('noscroll'); 
+            }
+          }
+          try { toggle.setAttribute('aria-expanded', (open ? 'true' : 'false')); } catch (e) {}
+        });
+      }
+      
+      // Close sidebar when clicking overlay
+      const overlay = document.getElementById('content-overlay');
+      if (overlay) {
+        overlay.addEventListener('click', function() {
+          const sidebar = document.querySelector('.sidebar');
+          if (sidebar) sidebar.classList.remove('open');
+          overlay.classList.remove('visible');
+          overlay.classList.add('d-none');
+          document.body.classList.remove('noscroll');
+        });
+      }
+      
+      // Close sidebar when clicking a link (mobile)
+      const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
+      sidebarLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+          const sidebar = document.querySelector('.sidebar');
+          if (sidebar && sidebar.classList.contains('open')) {
+            sidebar.classList.remove('open');
+            if (overlay) {
+              overlay.classList.remove('visible');
+              overlay.classList.add('d-none');
+              document.body.classList.remove('noscroll');
+            }
+          }
+        });
+      });
+    });
+    
+    // Marcar link activo en la barra superior y sidebar
+    document.addEventListener('DOMContentLoaded', function() {
+      try {
+        // Navbar links
+        const navLinks = document.querySelectorAll('.navbar-app .nav-link');
+        const cur = location.pathname.replace(/\/$/, '');
+        navLinks.forEach(function(a){
+          const href = (a.getAttribute('href') || '').replace(/\/$/, '');
+          if (href && cur === href) {
+            a.classList.add('active');
+          }
+        });
+        
+        // Sidebar links
+        const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
+        sidebarLinks.forEach(function(a){
+          const href = (a.getAttribute('href') || '').replace(/\/$/, '');
+          if (href && cur === href) {
+            a.classList.add('active');
+          }
+        });
+      } catch (e) { /* silent */ }
+    });
+    // showFlashHTML(html): inserta alertas HTML en #flash-container y activa autocierre
+    window.showFlashHTML = function(html) {
+        try {
+            const container = document.getElementById('flash-container');
+            if (!container) return;
+            const temp = document.createElement('div');
+            temp.innerHTML = html;
+            temp.querySelectorAll('.alert').forEach(function(alertEl) {
+                const node = alertEl.cloneNode(true);
+                container.appendChild(node);
+                if (!node.querySelector('.close') && node.classList.contains('alert-dismissible')) {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'close';
+                    btn.setAttribute('data-dismiss', 'alert');
+                    btn.innerHTML = '&times;';
+                    node.insertBefore(btn, node.firstChild);
+                }
+                setTimeout(function() {
+                    try { $(node).alert('close'); } catch(e) { node.remove(); }
+                }, 4000);
+            });
+        } catch (e) { console.error('showFlashHTML error', e); }
+    };
+    </script>
+  </body>
+</html>

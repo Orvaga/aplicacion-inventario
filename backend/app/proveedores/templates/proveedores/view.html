@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ proveedor['nombre'] }}{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{{ url_for('proveedores.index') }}" class="btn btn-secondary">← Volver</a>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div>
+            <h2 class="mb-0">{{ proveedor['nombre'] }}</h2>
+            {% if proveedor['razon_social'] %}
+              <small class="text-muted">{{ proveedor['razon_social'] }}</small>
+            {% endif %}
+        </div>
+        <div class="text-right">
+            {% if proveedor['estado'] %}
+                <span class="badge badge-info">{{ proveedor['estado']|capitalize }}</span>
+            {% endif %}
+            {% if proveedor['sitio_web'] %}
+                <a href="{{ proveedor['sitio_web'] }}" class="btn btn-link btn-sm" target="_blank">Visitar</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h6>Información de contacto</h6>
+                <dl class="row">
+                    <dt class="col-sm-4">Contacto</dt>
+                    <dd class="col-sm-8">{{ proveedor['contacto'] or '-' }}</dd>
+                    <dt class="col-sm-4">Teléfono</dt>
+                    <dd class="col-sm-8">{{ proveedor['telefono'] or '-' }}</dd>
+                    <dt class="col-sm-4">Email</dt>
+                    <dd class="col-sm-8">{{ proveedor['email'] or '-' }}</dd>
+                    <dt class="col-sm-4">Dirección</dt>
+                    <dd class="col-sm-8">{{ proveedor['direccion'] or '-' }}</dd>
+                    <dt class="col-sm-4">NIT</dt>
+                    <dd class="col-sm-8">{{ proveedor['nit'] or '-' }}</dd>
+                </dl>
+            </div>
+            <div class="col-md-6">
+                <h6>Datos comerciales</h6>
+                <dl class="row">
+                    <dt class="col-sm-4">Producto/Servicio</dt>
+                    <dd class="col-sm-8">{{ proveedor['producto_servicio'] or '-' }}</dd>
+                    <dt class="col-sm-4">Condiciones de Pago</dt>
+                    <dd class="col-sm-8">{{ proveedor['condiciones_pago'] or '-' }}</dd>
+                    <dt class="col-sm-4">Fecha de registro</dt>
+                    <dd class="col-sm-8">{{ proveedor['fecha_registro'] or '-' }}</dd>
+                    <dt class="col-sm-4">Notas</dt>
+                    <dd class="col-sm-8">{{ proveedor['notas'] or '-' }}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <a href="{{ url_for('proveedores.edit', id=proveedor['id']) }}" class="btn btn-warning">Editar</a>
+        <a href="{{ url_for('proveedores.delete', id=proveedor['id']) }}" class="btn btn-danger">Eliminar</a>
+    </div>
+</div>
+{% endblock %}
