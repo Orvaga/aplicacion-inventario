@@ -2,7 +2,7 @@ services:
   - type: web
     name: aplicacion-inventario
     env: python
-    buildCommand: pip install -r requirements.txt && python backend/create_database.py
+    buildCommand: pip install -r requirements.txt && python create_database.py
     startCommand: gunicorn -w 4 -b 0.0.0.0:$PORT backend.run:app
     envVars:
       - key: PYTHON_VERSION
