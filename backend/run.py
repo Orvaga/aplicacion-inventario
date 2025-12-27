@@ -1,11 +1,11 @@
 import sys
 import os
 from pathlib import Path
-from flask import Flask
+
+# Añadir el directorio backend al path ANTES de importar
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from app import create_app
-# Añadir la raíz del proyecto al path
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 app = create_app()
 
